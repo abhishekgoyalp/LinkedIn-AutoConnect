@@ -12,7 +12,6 @@ This project automates the process of sending connection requests on a social ne
 
 ## Features
 - Automated sending of connection requests.
-- Randomized delays between requests to mimic human behavior.
 - Count tracking of sent invites, stored in Chrome storage.
 - Simple start and stop commands via message passing.
 
@@ -25,26 +24,21 @@ This project automates the process of sending connection requests on a social ne
 ### Steps
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/auto-connection-request-sender.git
-   cd auto-connection-request-sender
+   git clone https://github.com/abhishekgoyalp/LinkedIn-AutoConnect.git
+   cd LinkedIn-AutoConnect
+   npm i # For installing the node modules that will help in building the project
    ```
+2. **Make Build of this Project**
+    - Open the terminal and run `npm run build` command.
+    - It will create a build folder which is the installable extension folder.
+    - Copy the `src/index.js` `src/background.js` and `src/contentScript.js` files and paste under the build folder.
+    - Now, it is ready to deploy.
 
-2. **Load the Extension:**
+3. **Load the Extension:**
    - Open Chrome and go to `chrome://extensions/`.
    - Enable "Developer mode" at the top right.
-   - Click "Load unpacked" and select the directory where your extension files are located.
-
-3. **Testing:**
-   - Navigate to the social networking platform where you want to send connection requests.
-   - Open the console (`F12` or `Ctrl + Shift + I`).
-   - Send a message to start the auto-connect feature by typing:
-     ```javascript
-     chrome.runtime.sendMessage({ action: "startAutoConnect" });
-     ```
-   - To stop the auto-connect feature, type:
-     ```javascript
-     chrome.runtime.sendMessage({ action: "stopAutoConnect" });
-     ```
+   - Click "Load unpacked" and select the build directory where extension files are located.
+   - LinkedIn AutoConnect extension is added in My extension list. Click on the detail button adn enable the pin to toolbar option.
 
 ## Usage
 Once the extension is loaded and the auto-connect feature is started, the script will:
