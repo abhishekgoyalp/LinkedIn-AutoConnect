@@ -1,0 +1,94 @@
+.popup-container {
+    width: 300px;
+    background-color: #1d1f27;
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 18px;
+    color: #e6e6e6;
+  }
+  
+  .settings-button {
+    background: none;
+    border: none;
+    color: #e6e6e6;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .counter h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .circle {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin: 0 auto;
+  }
+  
+  .progress-ring {
+    transform: rotate(-90deg); /* Rotate the circle so the progress starts at the top */
+  }
+  
+  .progress-ring__circle {
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  
+  .progress-ring__circle--fill {
+    transition: stroke-dashoffset 0.5s ease-in-out;
+  }
+  
+  .count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .button-container {
+    margin-top: 20px;
+  }
+  
+  .control-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .start-button {
+    background-color: #a0e79d;
+    color: black;
+  }
+  
+  .stop-button {
+    background-color: #e79d9d;
+    color: black;
+  }
+  
+  .control-button:hover {
+    opacity: 0.9;
+  }
+  

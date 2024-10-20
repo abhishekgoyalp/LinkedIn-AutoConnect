@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn AutoConnect",
+  "version": "1.0",
+  "description": "Auto-connect to LinkedIn profiles.",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.linkedin.com/*"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "128": "icon128.png"
+  }
+}
