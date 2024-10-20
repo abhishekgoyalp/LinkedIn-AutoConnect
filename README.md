@@ -1,70 +1,76 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Auto Connection Request Sender
 
-## Available Scripts
+## Overview
+This project automates the process of sending connection requests on a social networking platform. It identifies "Connect" buttons on the page, waits for a random delay between 5 to 10 seconds, and then clicks the button to send the connection request without a note. It also keeps track of the number of invites sent using Chrome storage.
 
-In the project directory, you can run:
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Architecture](#architecture)
 
-### `npm start`
+## Features
+- Automated sending of connection requests.
+- Randomized delays between requests to mimic human behavior.
+- Count tracking of sent invites, stored in Chrome storage.
+- Simple start and stop commands via message passing.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
+- Google Chrome or any Chromium-based browser
+- Basic knowledge of Chrome extensions
 
-### `npm test`
+### Steps
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/auto-connection-request-sender.git
+   cd auto-connection-request-sender
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Load the Extension:**
+   - Open Chrome and go to `chrome://extensions/`.
+   - Enable "Developer mode" at the top right.
+   - Click "Load unpacked" and select the directory where your extension files are located.
 
-### `npm run build`
+3. **Testing:**
+   - Navigate to the social networking platform where you want to send connection requests.
+   - Open the console (`F12` or `Ctrl + Shift + I`).
+   - Send a message to start the auto-connect feature by typing:
+     ```javascript
+     chrome.runtime.sendMessage({ action: "startAutoConnect" });
+     ```
+   - To stop the auto-connect feature, type:
+     ```javascript
+     chrome.runtime.sendMessage({ action: "stopAutoConnect" });
+     ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
+Once the extension is loaded and the auto-connect feature is started, the script will:
+- Continuously search for "Connect" buttons on the page.
+- Wait for a random time between 5 and 10 seconds before clicking each button.
+- Click "Send without a note" after a 1-second delay post clicking the "Connect" button.
+- Update the count of sent invites, stored in Chrome's sync storage.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Architecture
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The architecture of this project is designed around a Chrome extension model, which allows it to interact directly with the webpage DOM. Here’s a breakdown of the major components:
 
-### `npm run eject`
+1. **Content Script:**
+   - The core functionality resides in the content script, which listens for messages from the background script to start or stop the auto-connect process.
+   - It uses the `querySelectorAll` method to find all buttons on the page, filtering for those labeled "Connect".
+   - The script incorporates randomized delays to prevent the appearance of automated behavior, ensuring that connection requests feel more organic.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Chrome Storage API:**
+   - The project utilizes the Chrome Storage API to persist the invite count across page reloads and sessions. This is essential for tracking the number of connection requests sent without loss of data.
+   - The invite count is initialized from storage upon loading the script and reset to zero upon page refresh.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Message Passing:**
+   - The project employs Chrome's messaging system to facilitate communication between the content script and the background script, allowing for dynamic control of the auto-connection process.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Code Discussion
+The code is structured to separate concerns, making it easy to maintain and extend. Key functionalities like initiating connections, managing delays, and updating invite counts are modularized. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- The choice to implement a randomized delay helps to avoid detection by the platform as a bot, simulating more human-like behavior. 
+- The design emphasizes reusability and clarity, with well-defined functions for each core task, enhancing the overall readability of the code.
