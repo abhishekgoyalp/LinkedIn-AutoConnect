@@ -1,6 +1,6 @@
-
 let autoConnecting = false;
 let inviteCount = 0;
+let timeoutId = null; // Store the timeout ID
 
 function startAutoConnect() {
   autoConnecting = true;
@@ -9,6 +9,7 @@ function startAutoConnect() {
 
 function stopAutoConnect() {
   autoConnecting = false;
+  clearTimeout(timeoutId); // Clear existing timeout when stopping
 }
 
 function connectPeople() {
@@ -32,8 +33,8 @@ function connectPeople() {
     }
   });
 
-  // Retry every 3 seconds
-  setTimeout(connectPeople, 3000);
+  // Retry every 3 seconds and store the timeout ID
+  timeoutId = setTimeout(connectPeople, 3000);
 }
 
 // Function to update the invite count and save it in Chrome storage
@@ -55,6 +56,12 @@ chrome.runtime.onMessage.addListener((message) => {
   } else if (message.action === "stopAutoConnect") {
     stopAutoConnect();
   }
+});
+
+// Reset the invite count to zero on page unload
+window.addEventListener('beforeunload', () => {
+  inviteCount = 0; // Reset invite count to zero
+  chrome.storage.sync.set({ inviteCount }); // Save zero count to storage
 });
 
 // Initialize the invite count from storage when the content script loads

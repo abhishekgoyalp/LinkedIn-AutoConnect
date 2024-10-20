@@ -42,9 +42,6 @@ const Popup = () => {
         <div className="popup-container">
             <div className="header">
                 <h1>LinkedIn AutoConnect</h1>
-                <button className="settings-button">
-                    <i className="fas fa-cog"></i>
-                </button>
             </div>
             <div className="counter">
                 <h2>Invitations Sent</h2>
