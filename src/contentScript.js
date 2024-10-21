@@ -1,21 +1,32 @@
 let autoConnecting = false;
 let inviteCount = 0;
-let timeoutId = null; // Store the timeout ID
+let timeoutId = null;
 
-function startAutoConnect() {
+/**
+ * This method is trigger on start connecting action
+ */
+const startAutoConnect = () => {
   autoConnecting = true;
   connectPeople();
 }
 
-function stopAutoConnect() {
+/**
+ * This method is trigger on stop connecting action
+ */
+const stopAutoConnect = () => {
   autoConnecting = false;
-  clearTimeout(timeoutId); // Clear existing timeout when stopping
+  clearTimeout(timeoutId);
 }
 
-function connectPeople() {
+/**
+ * This function implements the original businees logic to send invites. It will search for all the buttons
+ * using querySelectorAll and filtering all the Connect button and click on them.
+ * After clicking Connect button it will open a model for selecting note, it will click on the 
+ * send without a note button and finally, increase the update inviteCount by +1
+ */
+const connectPeople = () => {
   if (!autoConnecting) return;
 
-  // Find and click "Connect" buttons
   const buttons = document.querySelectorAll("button");
 
   buttons.forEach((button) => {
@@ -33,23 +44,25 @@ function connectPeople() {
     }
   });
 
-  // Retry every 3 seconds and store the timeout ID
   timeoutId = setTimeout(connectPeople, 3000);
 }
 
-// Function to update the invite count and save it in Chrome storage
+/**
+ * This function is responsible for incrementing the invite count by 1 and sync it in chrome
+ * storage. Send message to update it on UI
+ */
 function updateInviteCount() {
-  inviteCount++; // Increment invite count
+  inviteCount++;
 
-  // Save the updated invite count to Chrome storage
   chrome.storage.sync.set({ inviteCount }, () => {
     console.log(`Invite count updated to: ${inviteCount}`);
-    // Send a message to the popup to update the UI
     chrome.runtime.sendMessage({ action: "updateInviteCount", inviteCount });
   });
 }
 
-// Listen for messages from the background script
+/**
+ * Listen for messages from the background script
+ */
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action === "startAutoConnect") {
     startAutoConnect();
@@ -58,13 +71,19 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-// Reset the invite count to zero on page unload
+/**
+ * Reset the invite count to zero on page unload
+ */
 window.addEventListener('beforeunload', () => {
-  inviteCount = 0; // Reset invite count to zero
-  chrome.storage.sync.set({ inviteCount }); // Save zero count to storage
+  inviteCount = 0;
+  autoConnecting = false;
+  chrome.storage.sync.set({ inviteCount, autoConnecting });
+
 });
 
-// Initialize the invite count from storage when the content script loads
+/**
+ * Initialize the invite count from storage when the content script loads
+ */
 chrome.storage.sync.get(["inviteCount"], (result) => {
   inviteCount = result.inviteCount || 0;
 });

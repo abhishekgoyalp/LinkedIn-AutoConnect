@@ -4,7 +4,7 @@ import './Popup.css';
 const Popup = () => {
     const [isConnecting, setIsConnecting] = useState(false);
     const [inviteCount, setInviteCount] = useState(0);
-    const maxInvitations = 100; // Example max limit for the loader (you can adjust)
+    const maxInvitations = 100;
 
     useEffect(() => {
         // Load saved state from chrome storage

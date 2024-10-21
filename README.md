@@ -2,18 +2,12 @@
 # Auto Connection Request Sender
 
 ## Overview
-This project automates the process of sending connection requests on a social networking platform. It identifies "Connect" buttons on the page, waits for a random delay between 5 to 10 seconds, and then clicks the button to send the connection request without a note. It also keeps track of the number of invites sent using Chrome storage.
+This project automates the process of sending connection requests on LinkedIn. It identifies "Connect" buttons on the page, waits for a random delay between 5 to 10 seconds, and then clicks the button to send the connection request without a note. It also keeps track of the number of invites sent using Chrome storage.
 
 ## Table of Contents
-- [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Architecture](#architecture)
-
-## Features
-- Automated sending of connection requests.
-- Count tracking of sent invites, stored in Chrome storage.
-- Simple start and stop commands via message passing.
 
 ## Installation
 
@@ -30,22 +24,27 @@ This project automates the process of sending connection requests on a social ne
    ```
 2. **Make Build of this Project**
     - Open the terminal and run `npm run build` command.
-    - It will create a build folder which is the installable extension folder.
-    - Copy the `src/index.js` `src/background.js` and `src/contentScript.js` files and paste under the build folder.
+   - It will create a build folder which is the installable extension folder.
+      ![npm run build](./assets/npm_build.png)
+    - Copy the `src/index.js` `src/background.js` and `src/contentScript.js` files and paste under the build directory.
+      ![Copy Paste](./assets/copy_paste.png)
     - Now, it is ready to deploy.
 
 3. **Load the Extension:**
    - Open Chrome and go to `chrome://extensions/`.
    - Enable "Developer mode" at the top right.
+      ![Chrome Extension](./assets/chrome_extension.png)
    - Click "Load unpacked" and select the build directory where extension files are located.
-   - LinkedIn AutoConnect extension is added in My extension list. Click on the detail button adn enable the pin to toolbar option.
+      ![Load unpacked](./assets/load_directory.png)
+   - LinkedIn AutoConnect extension is added in My extension list. Click on the detail button and enable the pin to toolbar option.
+      ![My Extension List](./assets/my_extension.png)
+      ![Pin to toolbar ](./assets/pin_to_toolbar.png)
 
 ## Usage
-Once the extension is loaded and the auto-connect feature is started, the script will:
-- Continuously search for "Connect" buttons on the page.
-- Wait for a random time between 5 and 10 seconds before clicking each button.
-- Click "Send without a note" after a 1-second delay post clicking the "Connect" button.
-- Update the count of sent invites, stored in Chrome's sync storage.
+Once the extension is pin to toolbar, open the linkedin and search for connections then click on the LinkedIn AutoConnect icon and click on **START CONNECTING** to begin the connecting
+![Extension Use](./assets/extension_use.png)
+It will click on the Connect button. Before clicking it will wait for a random time between 5 and 10 seconds.
+Use **STOP CONNECTING** button for stop this process.
 
 ## Architecture
 
