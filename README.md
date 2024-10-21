@@ -1,5 +1,5 @@
 
-# Auto Connection Request Sender
+# LinkedIn AutoConnect: Connection Sender
 
 ## Overview
 This project automates the process of sending connection requests on LinkedIn. It identifies "Connect" buttons on the page, waits for a random delay between 5 to 10 seconds, and then clicks the button to send the connection request without a note. It also keeps track of the number of invites sent using Chrome storage.
