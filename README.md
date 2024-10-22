@@ -12,7 +12,7 @@ This project automates the process of sending connection requests on LinkedIn. I
 ## Installation
 
 ### For Direct Download
-1. Download Link: `https://github.com/abhishekgoyalp/LinkedIn-AutoConnect/releases/latest/download/linkedin-autoconnect-chrome-extension.zip` It will download the linkedin-autoconnect-chrome-extension.zip file.
+1. Download Link: https://github.com/abhishekgoyalp/LinkedIn-AutoConnect/releases/latest/download/linkedin-autoconnect-chrome-extension.zip It will download the linkedin-autoconnect-chrome-extension.zip file.
 2. Unzip this file. It will contains various files.
    ![unzip](./assets/unzip.png)
 3. Open Google Chrome, type `chrome://extensions` on your address bar and hit Enter.
