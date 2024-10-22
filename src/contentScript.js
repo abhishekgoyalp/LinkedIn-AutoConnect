@@ -18,33 +18,52 @@ const stopAutoConnect = () => {
   clearTimeout(timeoutId);
 }
 
+// Function to introduce delay
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Function to get a random delay between 5 and 10 seconds (5000 to 10000 ms)
+const getRandomDelay = () => {
+  return Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000; // 5000 to 10000 ms
+};
+
 /**
- * This function implements the original businees logic to send invites. It will search for all the buttons
- * using querySelectorAll and filtering all the Connect button and click on them.
- * After clicking Connect button it will open a model for selecting note, it will click on the 
- * send without a note button and finally, increase the update inviteCount by +1
+ * This function automates the process of sending connection requests on a webpage (likely LinkedIn). 
+ * It continuously scans for "Connect" buttons, clicks them, and follows up by clicking the 
+ * "Send without a note" button to send the connection request.
+ * 
+ * - If the autoConnecting flag is false, the function exits without doing anything.
+ * - The function first retrieves all buttons on the page and filters them to find ones with the text "Connect".
+ * - If no "Connect" buttons are found, the function stops.
+ * - Otherwise, it clicks the first "Connect" button, waits for 1 second, and then looks for the "Send without a note" button.
+ * - If the "Send without a note" button is found, it clicks it, updates the invite count, and stores it using Chrome's storage sync.
+ * - A random delay between 5 and 10 seconds is used to simulate more human-like interaction before recursively running the function again.
+ * 
+ * This method ensures that connection requests are sent in a controlled and automated manner while avoiding overly fast actions that may trigger anti-bot measures.
  */
-const connectPeople = () => {
+const connectPeople = async () => {
   if (!autoConnecting) return;
 
   const buttons = document.querySelectorAll("button");
+  const connectButtons = Array.from(buttons).filter(button => button.innerText === "Connect");
 
-  buttons.forEach((button) => {
-    if (button.innerText === "Connect") {
-      button.click();
+  if (connectButtons.length === 0) {
+    return;
+  }
+  connectButtons[0].click();
 
-      setTimeout(() => {
-        const sendNowButton = document.querySelector("button[aria-label='Send without a note']");
-        if (sendNowButton) {
-          sendNowButton.click();
-          updateInviteCount();
-          chrome.storage.sync.set({ inviteCount });
-        }
-      }, 1000);
-    }
-  });
+  // Wait for the "Send without a note" button to appear and click it after 1 second
+  await delay(1000);
+  const sendNowButton = document.querySelector("button[aria-label='Send without a note']");
+  if (sendNowButton) {
+    sendNowButton.click();
+    updateInviteCount();
+    chrome.storage.sync.set({ inviteCount });
+  }
 
-  timeoutId = setTimeout(connectPeople, 3000);
+  const randomDelay = getRandomDelay();
+  await delay(randomDelay);
+
+  connectPeople();
 }
 
 /**
