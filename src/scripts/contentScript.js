@@ -95,8 +95,8 @@ chrome.runtime.onMessage.addListener((message) => {
  */
 window.addEventListener('beforeunload', () => {
   inviteCount = 0;
-  autoConnecting = false;
-  chrome.storage.sync.set({ inviteCount, autoConnecting });
+  isConnecting = false;
+  chrome.storage.sync.set({ inviteCount, isConnecting });
 
 });
 
